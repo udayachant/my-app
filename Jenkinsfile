@@ -1,6 +1,6 @@
 node{
    stage('SCM Checkout'){
-     git 'https://github.com/pavancse530/my-app.git'
+     git 'https://github.com/udayachant/my-app.git'
    }
    stage('Compile-Package'){
 
@@ -15,17 +15,17 @@ node{
 	        }
 	    }
    stage('Build Docker Imager'){
-   sh 'docker build -t pavancse530/myweb:0.0.2 .'
+   sh 'docker build -t udayachant/myweb:0.0.2 .'
    }
    stage('Docker Image Push'){
    withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
-   sh "docker login -u pavancse530 -p ${dockerPassword}"
+   sh "docker login -u udayachant -p ${dockerPassword}"
     }
-   sh 'docker push pavancse530/myweb:0.0.2'
+   sh 'docker push udayachant/myweb:0.0.2'
    }
    stage('Nexus Image Push'){
    sh "docker login -u admin -p admin123 65.0.32.27:8083"
-   sh "docker tag pavancse530/myweb:0.0.2 65.0.32.27:8083/pavan:1.0.0"
+   sh "docker tag udayachant/myweb:0.0.2 65.0.32.27:8083/pavan:1.0.0"
    sh 'docker push 65.0.32.27:8083/pavan:1.0.0'
    }
    stage('Remove Previous Container'){
@@ -35,7 +35,7 @@ node{
 		//  do nothing if there is an exception
 	}
    stage('Docker deployment'){
-   sh 'docker run -d -p 8090:8080 --name tomcattest pavancse530/myweb:0.0.2' 
+   sh 'docker run -d -p 8090:8080 --name tomcattest udayachant/myweb:0.0.2' 
    }
    }
 }
